@@ -8,7 +8,7 @@ import FeatureCarousel from "@/components/feature-carousel";
 import { Button } from "@/components/ui/button";
 import { templates } from "@/templates";
 
-const SWIPE_WORDS = ["you", "your company", "your SaaS"];
+const SWIPE_WORDS = ["you", "your brand", "your SaaS"];
 const SWIPE_MS = 2500;
 
 function SwipeText() {
@@ -22,7 +22,7 @@ function SwipeText() {
   }, []);
 
   return (
-    <span className="relative inline-flex h-[1.2em] items-end overflow-hidden align-bottom">
+    <span className="relative inline-flex h-[1.2em] w-[10ch] items-end justify-center overflow-hidden align-bottom">
       <AnimatePresence mode="popLayout">
         <motion.span
           key={index}
