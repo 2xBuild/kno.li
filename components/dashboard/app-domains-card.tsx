@@ -96,7 +96,8 @@ function DnsInstructionsPanel({ domain, instructions }: { domain: string; instru
                   <CopyableValue value="TXT" label="type" mono />
                 </td>
                 <td className="px-3 py-2.5">
-                  <CopyableValue value={instructions.name} label="TXT host" mono />
+                  <CopyableValue value="@" label="TXT host" mono />
+                  <span className="ml-1.5 text-xs text-muted-foreground">or leave empty</span>
                 </td>
                 <td className="px-3 py-2.5">
                   <CopyableValue value={instructions.value} label="TXT value" mono />
@@ -128,7 +129,7 @@ function DomainRow({
 
   const instructions: DnsInstructions = {
     type: "TXT",
-    name: `_kno-li-verify.${domain.domain}`,
+    name: domain.domain,
     value: domain.verificationToken,
     cnameTarget: domain.dnsTarget,
   };

@@ -164,7 +164,7 @@ export default function TncPage() {
               <p>
                 Custom domains are available on Premium and Ultra plans. To
                 connect a domain: add it in your dashboard, then create a TXT
-                record at <code className="rounded bg-muted px-1 py-0.5 text-xs text-foreground">_kno-li-verify.yourdomain.com</code> with the
+                record on your domain with the
                 value we provide. Point a CNAME for your subdomain (or apex, if
                 supported) to the kno.li target we assign. After DNS
                 propagation, use the verify action in the dashboard. You are

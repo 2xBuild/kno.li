@@ -26,10 +26,8 @@ function makeVerificationToken(): string {
 }
 
 async function hasMatchingVerificationTxt(domain: string, token: string): Promise<boolean> {
-  const verificationHost = `_kno-li-verify.${domain}`;
-
   try {
-    const records = await resolveTxt(verificationHost);
+    const records = await resolveTxt(domain);
     for (const chunks of records) {
       const value = chunks.join("").trim();
       if (value === token) return true;
@@ -93,7 +91,7 @@ export async function addCustomDomain(input: {
     domain: created,
     instructions: {
       type: "TXT",
-      name: `_kno-li-verify.${input.domain}`,
+      name: input.domain,
       value: created.verificationToken,
       cnameTarget: dnsTarget,
     },
@@ -129,7 +127,7 @@ export async function verifyCustomDomain(input: {
       domain: failed ?? domain,
       instructions: {
         type: "TXT",
-        name: `_kno-li-verify.${domain.domain}`,
+        name: domain.domain,
         value: domain.verificationToken,
       },
     };
