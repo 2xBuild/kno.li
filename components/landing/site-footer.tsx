@@ -41,6 +41,9 @@ export function SiteFooter() {
         <div className="flex flex-col items-center gap-6 sm:items-end sm:gap-4">
           {/* Top: Mini Links */}
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs font-medium text-muted-foreground/80 sm:justify-end">
+            <Link href="/faq" className="transition-colors hover:text-foreground">
+              FAQ
+            </Link>
             <Link href="/compare" className="transition-colors hover:text-foreground">
               Compare Plans
             </Link>

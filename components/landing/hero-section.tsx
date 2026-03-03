@@ -30,7 +30,7 @@ function SwipeText() {
           animate={{ y: "0%", opacity: 1 }}
           exit={{ y: "-100%", opacity: 0 }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="inline-block whitespace-nowrap rounded-md bg-yellow-200/60 px-2 text-foreground dark:bg-green-500/30"
+          className="inline-block whitespace-nowrap rounded-md bg-yellow-200/60 px-[0.25em] py-[0.1em] text-foreground dark:bg-green-500/30"
         >
           {SWIPE_WORDS[index]}
         </motion.span>

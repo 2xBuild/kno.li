@@ -141,7 +141,15 @@ export function FactsSection() {
         >
           Everything you get
         </motion.h2>
-
+        <motion.p
+          className="mx-auto mt-1.5 max-w-2xl text-center text-sm text-muted-foreground sm:text-base"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.45, delay: 0.08 }}
+        >
+          Build and host your portfolio like never before.
+        </motion.p>
 
         <div className="mt-6 grid grid-cols-1 gap-2.5 min-[400px]:grid-cols-2 sm:mt-10 sm:grid-cols-3 sm:gap-3">
           {facts.map((fact, i) => (

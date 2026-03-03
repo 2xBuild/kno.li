@@ -193,7 +193,7 @@ export default function FeatureCarousel({
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        <div className="relative mx-auto aspect-[4/3] w-[240px] sm:w-[340px] md:w-[420px]">
+        <div className="relative mx-auto aspect-[4/3] w-[240px] sm:w-[340px]">
           {allItems.map((item, index) => {
             const status = getCardStatus(index);
             const isActive = status === "active";
@@ -219,7 +219,7 @@ export default function FeatureCarousel({
                   mass: 0.8,
                 }}
                 className={cn(
-                  "absolute inset-0 overflow-hidden rounded-2xl border-4 border-background bg-background shadow-xl origin-center",
+                  "absolute inset-0 overflow-hidden rounded-2xl border-4 border-background bg-muted shadow-xl origin-center",
                   !isActive && isVisible && "cursor-pointer",
                 )}
                 onClick={() => {
@@ -232,13 +232,15 @@ export default function FeatureCarousel({
                   src={item.image}
                   alt={item.label}
                   fill
+                  priority={index < 2}
+                  loading={index < 3 ? "eager" : undefined}
                   className={cn(
                     "object-cover transition-all duration-700",
                     isActive
                       ? "grayscale-0 blur-0"
                       : "grayscale blur-[2px] brightness-75",
                   )}
-                  sizes="(max-width: 640px) 240px, (max-width: 768px) 340px, 420px"
+                  sizes="(max-width: 640px) 240px, 340px"
                 />
 
                 <AnimatePresence>

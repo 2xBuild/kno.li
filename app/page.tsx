@@ -7,7 +7,7 @@ import { FactsSection } from "@/components/landing/facts-section";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { headers } from "next/headers";
 import { after } from "next/server";
-import { fetchProfileFromCustomDomain } from "@/lib/profile";
+import { fetchProfileFromCustomDomain, resolveProfileImgUrl } from "@/lib/profile";
 import { getProfileThemeStyle } from "@/lib/profile-theme";
 import { getTemplateEntry, DEFAULT_TEMPLATE_ID } from "@/templates";
 import { InvalidConfig, NotFound } from "@/components/errors";
@@ -15,11 +15,65 @@ import { trackPageViewForRequest } from "@/lib/services/analytics-service";
 import { ProfileLinkTracker } from "@/components/analytics/profile-link-tracker";
 import { FIRST_PARTY_HOSTS, X_REQUEST_HOST } from "@/lib/constants";
 
-export const metadata: Metadata = {
+const DEFAULT_METADATA: Metadata = {
   title: "kno.li | Host your portfolio",
   description:
     "Host your portfolio at kno.li with beautiful templates and built-in analytics.",
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const requestHeadersList = await headers();
+  const hostHeader =
+    requestHeadersList.get(X_REQUEST_HOST) ??
+    requestHeadersList.get("x-forwarded-host") ??
+    requestHeadersList.get("host") ??
+    "";
+  const host = hostHeader.split(":")[0]?.toLowerCase();
+
+  if (!host || FIRST_PARTY_HOSTS.has(host)) {
+    return DEFAULT_METADATA;
+  }
+
+  const result = await fetchProfileFromCustomDomain(host);
+  if (result.status !== "ok") return DEFAULT_METADATA;
+
+  const { profile, slug } = result;
+  const displayName = profile.heading_bold || slug || host;
+  const description = profile.desc_2 || profile.desc_3 || profile.desc_1;
+  const imgUrl = resolveProfileImgUrl(slug ?? host, profile.img, "kno-li");
+  const protocol =
+    requestHeadersList.get("x-forwarded-proto") ??
+    (host.includes("localhost") ? "http" : "https");
+  const ogImageUrl = `${protocol}://${host}/opengraph-image`;
+
+  return {
+    title: `${displayName} | kno.li`,
+    description,
+    icons: {
+      icon: imgUrl,
+      apple: imgUrl,
+    },
+    openGraph: {
+      title: `${displayName} | kno.li`,
+      description,
+      type: "profile",
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: `${displayName} profile preview`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${displayName} | kno.li`,
+      description,
+      images: [ogImageUrl],
+    },
+  };
+}
 
 export default async function Home() {
   const requestHeadersList = await headers();
