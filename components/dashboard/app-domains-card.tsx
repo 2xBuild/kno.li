@@ -18,6 +18,13 @@ interface DomainRecord {
   isPrimary: boolean;
 }
 
+interface VercelVerification {
+  type: string;
+  domain: string;
+  value: string;
+  reason: string;
+}
+
 interface DnsInstructions {
   type: string;
   name: string;
@@ -33,19 +40,30 @@ interface AppDomainsCardProps {
   canConnectCustomDomain: boolean;
 }
 
-function DnsInstructionsPanel({ domain, instructions }: { domain: string; instructions: DnsInstructions }) {
+function DnsInstructionsPanel({
+  domain,
+  instructions,
+  vercelVerification,
+}: {
+  domain: string;
+  instructions: DnsInstructions;
+  vercelVerification?: VercelVerification[];
+}) {
+  const isVercelTarget = instructions.cnameTarget === "cname.vercel-dns.com";
+  const isApexDomain = !domain.includes(".") || domain.split(".").length === 2;
+
   return (
     <div className="space-y-4 rounded-lg bg-muted/20 p-4">
       <div className="flex items-start gap-2">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
         <p className="text-sm font-medium">
-          Add these two DNS records at your domain registrar for <span className="font-semibold">{domain}</span>
+          Add these DNS records at your domain registrar for <span className="font-semibold">{domain}</span>
         </p>
       </div>
 
       <div className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Step 1 — CNAME Record <span className="font-normal">(routes traffic to us)</span>
+          Step 1 — {isVercelTarget && isApexDomain ? "A Record" : "CNAME Record"} <span className="font-normal">(routes traffic to us)</span>
         </p>
         <div className="overflow-hidden rounded-md bg-card">
           <table className="w-full text-sm">
@@ -57,59 +75,118 @@ function DnsInstructionsPanel({ domain, instructions }: { domain: string; instru
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="px-3 py-2.5">
-                  <CopyableValue value="CNAME" label="type" mono />
-                </td>
-                <td className="px-3 py-2.5">
-                  <CopyableValue value="@" label="host" mono />
-                  <span className="ml-1.5 text-xs text-muted-foreground">or leave empty</span>
-                </td>
-                <td className="px-3 py-2.5">
-                  <CopyableValue value={instructions.cnameTarget} label="CNAME target" mono />
-                </td>
-              </tr>
+              {isVercelTarget && isApexDomain ? (
+                <tr>
+                  <td className="px-3 py-2.5">
+                    <CopyableValue value="A" label="type" mono />
+                  </td>
+                  <td className="px-3 py-2.5">
+                    <CopyableValue value="@" label="host" mono />
+                  </td>
+                  <td className="px-3 py-2.5">
+                    <CopyableValue value="76.76.21.21" label="A record value" mono />
+                  </td>
+                </tr>
+              ) : (
+                <tr>
+                  <td className="px-3 py-2.5">
+                    <CopyableValue value="CNAME" label="type" mono />
+                  </td>
+                  <td className="px-3 py-2.5">
+                    <CopyableValue value={isApexDomain ? "@" : domain.split(".")[0] ?? "@"} label="host" mono />
+                    {isApexDomain && <span className="ml-1.5 text-xs text-muted-foreground">or leave empty</span>}
+                  </td>
+                  <td className="px-3 py-2.5">
+                    <CopyableValue value={instructions.cnameTarget} label="CNAME target" mono />
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
-        <p className="text-xs text-muted-foreground">
-          Some providers (like GoDaddy or Namecheap) don&apos;t support CNAME on root domains. If that&apos;s the case, use a subdomain like <code className="rounded bg-muted px-1 font-mono">www</code> instead, or look for a &quot;CNAME flattening&quot; / &quot;ALIAS&quot; option.
-        </p>
+        {isVercelTarget && isApexDomain ? (
+          <p className="text-xs text-muted-foreground">
+            For apex/root domains, use an <strong>A record</strong> pointing to Vercel&apos;s IP. SSL is provisioned automatically once DNS propagates.
+          </p>
+        ) : (
+          <p className="text-xs text-muted-foreground">
+            Some providers (like GoDaddy or Namecheap) don&apos;t support CNAME on root domains. If that&apos;s the case, use a subdomain like <code className="rounded bg-muted px-1 font-mono">www</code> instead, or look for a &quot;CNAME flattening&quot; / &quot;ALIAS&quot; option.
+          </p>
+        )}
       </div>
 
-      <div className="space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Step 2 — TXT Record <span className="font-normal">(proves you own the domain)</span>
-        </p>
-        <div className="overflow-hidden rounded-md bg-card">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-xs uppercase tracking-wider text-muted-foreground/90">
-                <th className="px-3 py-2">Type</th>
-                <th className="px-3 py-2">Name / Host</th>
-                <th className="px-3 py-2">Value / Content</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="px-3 py-2.5">
-                  <CopyableValue value="TXT" label="type" mono />
-                </td>
-                <td className="px-3 py-2.5">
-                  <CopyableValue value="@" label="TXT host" mono />
-                  <span className="ml-1.5 text-xs text-muted-foreground">or leave empty</span>
-                </td>
-                <td className="px-3 py-2.5">
-                  <CopyableValue value={instructions.value} label="TXT value" mono />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      {vercelVerification && vercelVerification.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Step 2 — Verification Record <span className="font-normal">(required by hosting provider)</span>
+          </p>
+          <div className="overflow-hidden rounded-md bg-card">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-xs uppercase tracking-wider text-muted-foreground/90">
+                  <th className="px-3 py-2">Type</th>
+                  <th className="px-3 py-2">Name / Host</th>
+                  <th className="px-3 py-2">Value / Content</th>
+                </tr>
+              </thead>
+              <tbody>
+                {vercelVerification.map((v) => (
+                  <tr key={v.domain + v.value}>
+                    <td className="px-3 py-2.5">
+                      <CopyableValue value={v.type} label="type" mono />
+                    </td>
+                    <td className="px-3 py-2.5">
+                      <CopyableValue value={v.domain} label="host" mono />
+                    </td>
+                    <td className="px-3 py-2.5">
+                      <CopyableValue value={v.value} label="verification value" mono />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            This record proves domain ownership. DNS changes can take up to 24–48 hours to propagate.
+          </p>
         </div>
-        <p className="text-xs text-muted-foreground">
-          DNS changes can take up to 24–48 hours to propagate. After adding both records, click <strong>Verify</strong> below.
-        </p>
-      </div>
+      )}
+
+      {(!vercelVerification || vercelVerification.length === 0) && (
+        <div className="space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Step 2 — TXT Record <span className="font-normal">(proves you own the domain)</span>
+          </p>
+          <div className="overflow-hidden rounded-md bg-card">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-xs uppercase tracking-wider text-muted-foreground/90">
+                  <th className="px-3 py-2">Type</th>
+                  <th className="px-3 py-2">Name / Host</th>
+                  <th className="px-3 py-2">Value / Content</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="px-3 py-2.5">
+                    <CopyableValue value="TXT" label="type" mono />
+                  </td>
+                  <td className="px-3 py-2.5">
+                    <CopyableValue value="@" label="TXT host" mono />
+                    <span className="ml-1.5 text-xs text-muted-foreground">or leave empty</span>
+                  </td>
+                  <td className="px-3 py-2.5">
+                    <CopyableValue value={instructions.value} label="TXT value" mono />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            DNS changes can take up to 24–48 hours to propagate. After adding both records, click <strong>Verify</strong> below.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
@@ -117,11 +194,13 @@ function DnsInstructionsPanel({ domain, instructions }: { domain: string; instru
 function DomainRow({
   domain,
   isMutating,
+  vercelVerification,
   onVerify,
   onDelete,
 }: {
   domain: DomainRecord;
   isMutating: boolean;
+  vercelVerification?: VercelVerification[];
   onVerify: (id: string) => void;
   onDelete: (id: string) => void;
 }) {
@@ -189,7 +268,11 @@ function DomainRow({
       </div>
 
       {expanded && domain.status !== "active" && (
-        <DnsInstructionsPanel domain={domain.domain} instructions={instructions} />
+        <DnsInstructionsPanel
+          domain={domain.domain}
+          instructions={instructions}
+          vercelVerification={vercelVerification}
+        />
       )}
     </div>
   );
@@ -208,6 +291,7 @@ export function AppDomainsCard({
   const [isMutatingDomain, setIsMutatingDomain] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [vercelVerificationMap, setVercelVerificationMap] = useState<Record<string, VercelVerification[]>>({});
 
   const loadDomains = async () => {
     setIsLoadingDomains(true);
@@ -269,10 +353,23 @@ export function AppDomainsCard({
       const res = await fetch(`/api/apps/${appId}/domains/${domainId}/verify`, {
         method: "POST",
       });
-      const data = (await res.json()) as { error?: string };
-      if (!res.ok) throw new Error(data.error ?? "Failed to verify domain.");
+      const data = (await res.json()) as {
+        error?: string;
+        vercelVerification?: VercelVerification[];
+        domain?: DomainRecord;
+      };
+      if (!res.ok) {
+        if (data.vercelVerification?.length) {
+          const targetDomain = data.domain?.domain ?? domainId;
+          setVercelVerificationMap((prev) => ({
+            ...prev,
+            [targetDomain]: data.vercelVerification!,
+          }));
+        }
+        throw new Error(data.error ?? "Failed to verify domain.");
+      }
       await loadDomains();
-      setMessage("Domain verified and activated!");
+      setMessage("Domain verified and activated! SSL certificate will be provisioned automatically.");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to verify domain.");
     } finally {
@@ -361,6 +458,7 @@ export function AppDomainsCard({
                   key={domain.id}
                   domain={domain}
                   isMutating={isMutatingDomain}
+                  vercelVerification={vercelVerificationMap[domain.domain]}
                   onVerify={handleVerify}
                   onDelete={handleDelete}
                 />

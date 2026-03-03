@@ -12,6 +12,13 @@ import {
 } from "@/lib/repositories/domains-repo";
 import type { PlanTier } from "@/db/schema";
 import { FIRST_PARTY_HOSTS } from "@/lib/constants";
+import {
+  addDomainToVercel,
+  removeDomainFromVercel,
+  verifyDomainOnVercel,
+  getDomainConfigFromVercel,
+  isVercelApiConfigured,
+} from "@/lib/vercel-api";
 
 function isFirstPartyDomain(domain: string): boolean {
   const normalized = domain.split(":")[0]?.toLowerCase() ?? "";
@@ -38,6 +45,8 @@ async function hasMatchingVerificationTxt(domain: string, token: string): Promis
 
   return false;
 }
+
+const VERCEL_CNAME_TARGET = "cname.vercel-dns.com";
 
 export async function getAppDomains(input: { ownerId: string; appId: string }) {
   const app = await findAppByIdForOwner(input.appId, input.ownerId);
@@ -77,7 +86,21 @@ export async function addCustomDomain(input: {
     };
   }
 
-  const dnsTarget = process.env.CUSTOM_DOMAIN_CNAME_TARGET ?? "cname.kno.li";
+  const dnsTarget = isVercelApiConfigured()
+    ? VERCEL_CNAME_TARGET
+    : (process.env.CUSTOM_DOMAIN_CNAME_TARGET ?? "cname.kno.li");
+
+  if (isVercelApiConfigured()) {
+    const vercelResult = await addDomainToVercel(input.domain);
+    if (!vercelResult.ok) {
+      return {
+        ok: false as const,
+        code: "vercel_error" as const,
+        message: vercelResult.error ?? "Failed to register domain with hosting provider.",
+      };
+    }
+  }
+
   const created = await createAppDomain({
     appId: input.appId,
     domain: input.domain,
@@ -111,6 +134,35 @@ export async function verifyCustomDomain(input: {
   const domain = await getAppDomain(input.appId, input.domainId);
   if (!domain) {
     return { ok: false as const, code: "not_found" as const };
+  }
+
+  if (isVercelApiConfigured()) {
+    const vercelResult = await verifyDomainOnVercel(domain.domain);
+
+    if (!vercelResult.ok || !vercelResult.verified) {
+      const configResult = await getDomainConfigFromVercel(domain.domain);
+
+      const failed = await markAppDomainFailed(input.appId, input.domainId);
+      return {
+        ok: false as const,
+        code: "verification_failed" as const,
+        message: "Domain not yet verified. Point your DNS to cname.vercel-dns.com and retry.",
+        domain: failed ?? domain,
+        vercelVerification: configResult.verification,
+        instructions: {
+          type: "TXT",
+          name: domain.domain,
+          value: domain.verificationToken,
+        },
+      };
+    }
+
+    const verified = await verifyAppDomain(input.appId, input.domainId);
+    if (!verified) {
+      return { ok: false as const, code: "not_found" as const };
+    }
+
+    return { ok: true as const, domain: verified };
   }
 
   const txtMatches = await hasMatchingVerificationTxt(
@@ -149,6 +201,15 @@ export async function deleteCustomDomain(input: {
   const app = await findAppByIdForOwner(input.appId, input.ownerId);
   if (!app) {
     return { ok: false as const, code: "not_found" as const };
+  }
+
+  const domain = await getAppDomain(input.appId, input.domainId);
+
+  if (domain && isVercelApiConfigured()) {
+    const vercelResult = await removeDomainFromVercel(domain.domain);
+    if (!vercelResult.ok) {
+      console.error("[domains] Failed to remove domain from Vercel:", vercelResult.error);
+    }
   }
 
   const removed = await removeAppDomain(input.appId, input.domainId);

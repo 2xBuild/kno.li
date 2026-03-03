@@ -39,6 +39,8 @@ export async function POST(request: Request, context: RouteContext) {
             error: result.message,
             code: result.code,
             instructions: result.instructions,
+            domain: result.domain,
+            vercelVerification: "vercelVerification" in result ? result.vercelVerification : undefined,
           },
           { status: 409 }
         );

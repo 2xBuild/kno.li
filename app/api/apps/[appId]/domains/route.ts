@@ -74,6 +74,9 @@ export async function POST(request: Request, context: RouteContext) {
       if (result.code === "not_found") {
         return jsonNoStore({ error: result.message }, { status: 404 });
       }
+      if (result.code === "vercel_error") {
+        return jsonNoStore({ error: result.message, code: result.code }, { status: 502 });
+      }
       return jsonNoStore({ error: result.message }, { status: 400 });
     }
 

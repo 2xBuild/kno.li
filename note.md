@@ -1,0 +1,1 @@
+Vercel api for custom domains is temporary solution and should be replaced with a proper DNS management solution once you upgrade to own server. 
