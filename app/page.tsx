@@ -47,15 +47,7 @@ export default async function Home() {
         requestHeaders.set(key, value);
       });
 
-      // #region agent log
-      const _dbgRoot = Date.now();
-      fetch('http://127.0.0.1:7612/ingest/69df7d4c-f9e2-49a9-8768-a83a17f851ab',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'f8a50e'},body:JSON.stringify({sessionId:'f8a50e',location:'app/page.tsx:custom-domain-tracking',message:'Root page tracking page view for custom domain',data:{host,analyticsAppId,renderTs:_dbgRoot},timestamp:_dbgRoot,hypothesisId:'H2,H4'})}).catch(()=>{});
-      // #endregion
-
       after(async () => {
-        // #region agent log
-        fetch('http://127.0.0.1:7612/ingest/69df7d4c-f9e2-49a9-8768-a83a17f851ab',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'f8a50e'},body:JSON.stringify({sessionId:'f8a50e',location:'app/page.tsx:after-callback',message:'Root page after() executing',data:{analyticsAppId,renderTs:_dbgRoot,afterTs:Date.now()},timestamp:Date.now(),hypothesisId:'H1'})}).catch(()=>{});
-        // #endregion
         try {
           await trackPageViewForRequest({
             appId: analyticsAppId,

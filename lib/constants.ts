@@ -3,9 +3,13 @@ export const APP_LOGO_PATH = "/logo.png";
 
 export const FIRST_PARTY_HOSTS = new Set([
   "kno.li",
+  "www.kno.li",
   "about.ec",
+  "www.about.ec",
   "it-iz.me",
+  "www.it-iz.me",
   "wanna-hire.me",
+  "www.wanna-hire.me",
   "localhost",
   "127.0.0.1",
 ]);
