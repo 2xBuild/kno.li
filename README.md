@@ -1,6 +1,6 @@
-# kno.li
+# Kno.li
 
-kno.li let's you host portfolios and linkfolios for you, your brand or SaaS with stunning templates. It also includes per-profile analytics, custom domains, customization and cool og images. 
+Kno.li let's you host portfolios and linkfolios for you, your brand or SaaS with stunning templates. It also includes per-profile analytics, custom domains, customization and cool og images. 
 
 ## Tech Stack
 
