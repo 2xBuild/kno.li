@@ -73,7 +73,7 @@ export function PricingSection() {
 
   return (
     <motion.section
-      className="px-4 pb-24 pt-8"
+      className="px-4 pb-14 pt-6 sm:pb-24 sm:pt-8"
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}

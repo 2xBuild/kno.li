@@ -26,7 +26,7 @@
     "geist": "^1.7.0",
     "geoip-lite": "^2.0.0",
     "lucide-react": "^0.575.0",
-    "motion": "^12.34.3",
+    "motion": "^12.34.5",
     "next": "16.1.6",
     "next-auth": "^5.0.0-beta.30",
     "pg": "^8.18.0",

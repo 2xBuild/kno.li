@@ -12,6 +12,7 @@ export const FIRST_PARTY_HOSTS = new Set([
   "www.wanna-hire.me",
   "localhost",
   "127.0.0.1",
+  
 ]);
 
 export function isFirstPartyHost(host: string): boolean {

@@ -130,10 +130,10 @@ export function FactsSection() {
   const facts = buildFacts();
 
   return (
-    <section className="border-y border-border/60 px-4 py-20">
+    <section className="border-y border-border/60 px-4 py-12 sm:py-20">
       <div className="mx-auto max-w-5xl">
         <motion.h2
-          className="text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+          className="text-center text-2xl font-bold tracking-tight text-foreground sm:text-4xl"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -143,7 +143,7 @@ export function FactsSection() {
         </motion.h2>
 
 
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-2.5 min-[400px]:grid-cols-2 sm:mt-10 sm:grid-cols-3 sm:gap-3">
           {facts.map((fact, i) => (
             <FactItem key={fact.label ?? fact.detail} fact={fact} index={i} />
           ))}

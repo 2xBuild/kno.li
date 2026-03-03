@@ -10,7 +10,7 @@ import { APP_LOGO_PATH } from "@/lib/constants";
 export function SiteFooter() {
   return (
     <motion.footer
-      className="border-t border-border/60 px-4 py-16"
+      className="border-t border-border/60 px-4 py-10 sm:py-16"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
@@ -55,7 +55,7 @@ export function SiteFooter() {
           {/* Bottom: Action and Social */}
           <div className="flex items-center gap-5">
             <a
-              href="https://x.com/iBuild"
+              href="https://x.com/izzHanu"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="X (Twitter)"
