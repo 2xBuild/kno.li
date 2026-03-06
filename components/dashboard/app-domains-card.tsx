@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { CopyableValue } from "@/components/ui/copyable-value";
+import { COMING_SOON_DOMAINS } from "@/lib/constants";
 
 interface DomainRecord {
   id: string;
@@ -425,11 +426,35 @@ export function AppDomainsCard({
         <div className="space-y-2">
           <p className="text-xs uppercase tracking-wide text-muted-foreground">Default domains</p>
           <div className="flex flex-wrap gap-2">
-            {firstPartyDomains.map((domain) => (
-              <Badge key={domain} variant="warning">
-                {domain}/{appSlug}
-              </Badge>
-            ))}
+            {firstPartyDomains.map((domain) => {
+              const isComingSoon = COMING_SOON_DOMAINS.includes(domain);
+              return (
+                <span
+                  key={domain}
+                  className="group/badge relative inline-block"
+                  title={isComingSoon ? "Coming soon" : undefined}
+                >
+                  <Badge
+                    variant="warning"
+                    className={
+                      isComingSoon
+                        ? "opacity-60 transition-opacity group-hover/badge:opacity-100"
+                        : ""
+                    }
+                  >
+                    {domain}/{appSlug}
+                  </Badge>
+                  {isComingSoon && (
+                    <span
+                      className="pointer-events-none absolute -top-1 -right-1 rounded-full border border-amber-200 bg-amber-50 px-1.5 py-0.5 text-[9px] font-medium text-amber-800 opacity-0 transition-opacity group-hover/badge:opacity-100 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200"
+                      aria-hidden
+                    >
+                      Soon
+                    </span>
+                  )}
+                </span>
+              );
+            })}
           </div>
         </div>
 

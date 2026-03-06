@@ -20,7 +20,7 @@ const LANDING_PLANS: PricingPlan[] = [
     yearlyPrice: 0,
     features: [
       "1 hosted app on cutefolio",
-      "Cool in-house domains ( cutefolio, about.ec, it-iz.me, wanna-hire.me )",
+      "3 in-house domains (cutefolio, it-iz.me, wanna-hire.me); kno.li & about.ec coming soon",
       "Access to all templates",
     ],
     cta: { label: "Start free", href: "/dashboard/create-app" },

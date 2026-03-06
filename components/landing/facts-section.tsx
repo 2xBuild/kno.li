@@ -20,7 +20,7 @@ interface Fact {
   color: string;
 }
 
-const FIRST_PARTY_DOMAIN_COUNT = 4;
+const FIRST_PARTY_DOMAIN_COUNT = 3;
 
 function buildFacts(): Fact[] {
   const portfolioCount = templates.filter(
@@ -35,7 +35,7 @@ function buildFacts(): Fact[] {
       icon: Globe,
       value: FIRST_PARTY_DOMAIN_COUNT,
       label: "Domains",
-      detail: "4 Free domains : cutefolio, about.ec, it-iz.me, wanna-hire.me",
+      detail: "3 free domains (cutefolio, it-iz.me, wanna-hire.me) and kno.li & about.ec coming soon",
       color: "text-blue-500",
     },
     {

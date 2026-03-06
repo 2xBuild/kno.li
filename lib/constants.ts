@@ -29,6 +29,9 @@ export const DISPLAY_DOMAINS = [...FIRST_PARTY_HOSTS].filter(
   (h) => !h.startsWith("www.") && h !== "localhost" && h !== "127.0.0.1",
 );
 
+/** Domains not yet active; show "Coming soon" and mute in UI. */
+export const COMING_SOON_DOMAINS = ["kno.li", "about.ec"];
+
 export function isFirstPartyHost(host: string): boolean {
   return FIRST_PARTY_HOSTS.has(host.split(":")[0]?.toLowerCase() ?? "");
 }

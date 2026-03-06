@@ -13,21 +13,31 @@ const FIRST_PARTY_DOMAINS = [
     name: "cutefolio",
     tagline: "Default hosted domain",
     description: "Great starter for link pages and simple intros.",
-  },
-  {
-    name: "about.ec",
-    tagline: "Your \"about\" page",
-    description: "Clean URL for bios and social links.",
+    comingSoon: false,
   },
   {
     name: "it-iz.me",
     tagline: "Personality first",
     description: "Playful domain for showing who you are.",
+    comingSoon: false,
   },
   {
     name: "wanna-hire.me",
     tagline: "Job-focused",
     description: "High-intent URL for job seekers and portfolios.",
+    comingSoon: false,
+  },
+  {
+    name: "kno.li",
+    tagline: "Coming soon",
+    description: "Short link domain — coming soon.",
+    comingSoon: true,
+  },
+  {
+    name: "about.ec",
+    tagline: "Coming soon",
+    description: "Clean URL for bios and social links — coming soon.",
+    comingSoon: true,
   },
 ];
 
@@ -86,14 +96,30 @@ export function DomainsSection() {
               {FIRST_PARTY_DOMAINS.map((domain) => (
                 <div
                   key={domain.name}
-                  className="flex items-center gap-3.5 py-2.5 first:pt-0 last:pb-0"
+                  className="group relative flex items-center gap-3.5 py-2.5 first:pt-0 last:pb-0"
                 >
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+                  <div
+                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
+                      domain.comingSoon
+                        ? "bg-muted/70 text-muted-foreground/70"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
                     <HugeiconsIcon icon={Globe02Icon} size={18} />
                   </div>
-                  <div className="min-w-0 flex-1">
+                  <div
+                    className={`min-w-0 flex-1 ${
+                      domain.comingSoon ? "opacity-70" : ""
+                    }`}
+                  >
                     <div className="flex items-baseline justify-between gap-2">
-                      <p className="font-semibold text-foreground">
+                      <p
+                        className={
+                          domain.comingSoon
+                            ? "font-semibold text-muted-foreground"
+                            : "font-semibold text-foreground"
+                        }
+                      >
                         {domain.name}
                       </p>
                       <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
@@ -104,6 +130,14 @@ export function DomainsSection() {
                       {domain.description}
                     </p>
                   </div>
+                  {domain.comingSoon && (
+                    <span
+                      className="pointer-events-none absolute right-0 top-2.5 rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-800 opacity-0 transition-opacity group-hover:opacity-100 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200"
+                      aria-hidden
+                    >
+                      Coming soon
+                    </span>
+                  )}
                 </div>
               ))}
             </div>

@@ -20,7 +20,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "What's the difference between Free, Pro, and Ultra?",
-    a: "Free: 1 app, access to all templates, and in-house domains (cutefolio, about.ec, it-iz.me, wanna-hire.me). Pro: up to 3 apps, full analytics (unique visitors, click tracking, country-wise traffic), and custom domain support. Ultra: up to 15 apps, full analytics, custom domains for all apps, dedicated support, and early access to new features.",
+    a: "Free: 1 app, access to all templates, and 3 in-house domains (cutefolio, it-iz.me, wanna-hire.me; kno.li and about.ec coming soon). Pro: up to 3 apps, full analytics (unique visitors, click tracking, country-wise traffic), and custom domain support. Ultra: up to 15 apps, full analytics, custom domains for all apps, dedicated support, and early access to new features.",
   },
   {
     q: "Can I use my own domain?",
