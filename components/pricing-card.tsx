@@ -7,7 +7,6 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { playSwitchSfx } from "@/lib/sfx";
 
 export type PricingPlan = {
   id: string;
@@ -100,10 +99,12 @@ function PricingCard({
           {title ?? "Pricing"}
         </h1>
 
-        <div className="bg-muted p-1 h-10 w-full rounded-xl ring-1 ring-border flex">
+        <div
+          data-click-sfx="switch"
+          className="bg-muted p-1 h-10 w-full rounded-xl ring-1 ring-border flex"
+        >
           <button
             onClick={() => {
-              if (billingCycle !== "monthly") playSwitchSfx();
               setBillingCycle("monthly");
               onSelectionChange?.(selectedPlan, "monthly");
             }}
@@ -124,7 +125,6 @@ function PricingCard({
           </button>
           <button
             onClick={() => {
-              if (billingCycle !== "yearly") playSwitchSfx();
               setBillingCycle("yearly");
               onSelectionChange?.(selectedPlan, "yearly");
             }}

@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { Eye, ArrowRight, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { templates, type TemplateCategory } from "@/templates";
-import { playClickSfx, playSwitchSfx } from "@/lib/sfx";
 
 const TEMPLATE_CATEGORIES: { id: TemplateCategory; label: string }[] = [
   { id: "portfolio", label: "Portfolios" },
@@ -49,6 +48,7 @@ export function TemplatesSection() {
 
           {/* Category toggle */}
           <motion.div
+            data-click-sfx="switch"
             className="mt-5 inline-flex w-full max-w-[260px] overflow-hidden rounded-md border border-border bg-background text-xs"
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -63,7 +63,6 @@ export function TemplatesSection() {
                   type="button"
                   onClick={() => {
                     if (activeCategory === category.id) return;
-                    playSwitchSfx();
                     setActiveCategory(category.id);
                   }}
                   className={`relative flex-1 border-l border-border px-4 py-2 font-medium transition-colors first:border-l-0 ${
@@ -115,7 +114,6 @@ export function TemplatesSection() {
                         asChild
                         size="icon"
                         className="h-8 w-8 rounded-md border border-white/30 bg-black/70 text-white backdrop-blur-sm hover:bg-black/90"
-                        onClick={playClickSfx}
                       >
                         <Link href={`/preview?template=${t.id}`} aria-label={`Preview ${t.name}`}>
                           <Eye className="size-4" />
@@ -125,7 +123,6 @@ export function TemplatesSection() {
                         asChild
                         size="sm"
                         className="h-8 rounded-md border border-white/30 bg-black/70 px-3 text-white backdrop-blur-sm hover:bg-black/90"
-                        onClick={playClickSfx}
                       >
                         <Link href={`/login?template=${t.id}`} aria-label={`Use ${t.name}`}>
                           <span>Use</span>
@@ -160,7 +157,6 @@ export function TemplatesSection() {
               variant="outline"
               size="sm"
               className="landing-cta-button group gap-2 px-6"
-              onClick={playClickSfx}
             >
               <Link href="/templates">
                 <span>All templates</span>

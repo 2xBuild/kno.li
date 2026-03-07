@@ -9,13 +9,13 @@ export interface ProfileCta {
   type: "primary" | "secondary";
   label: string;
   href: string;
-  /** Optional icon: "SI IconName" or "BI IconName" (e.g. "SI FileText", "BI Send") */
+  /** Optional icon: "PACK IconName" (e.g. "LU FileText", "SI Github", "FA6 FilePdf") */
   icon?: string;
 }
 
-/** Tech with icon (SI/BI spec) and display name. Legacy: plain string = same value for both. */
+/** Tech with icon spec + display name. Legacy: plain string = same value for both. */
 export interface ProfileTech {
-  /** Icon spec: "SI IconName" or "BI IconName" (e.g. "SI Typescript", "BI React") */
+  /** Icon spec: "PACK IconName" (e.g. "SI Typescript", "LU Code", "TB BrandGithub") */
   iconName: string;
   /** Label shown in the UI */
   visibleName: string;

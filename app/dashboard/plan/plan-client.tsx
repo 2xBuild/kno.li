@@ -8,7 +8,6 @@ import { AnimatePresence, motion } from "motion/react";
 import NumberFlow from "@number-flow/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { playSwitchSfx } from "@/lib/sfx";
 
 type BillingCycle = "monthly" | "yearly";
 
@@ -178,10 +177,12 @@ export function PlanClient({
         <h2 className="text-xl font-semibold tracking-tight">
           {planTier === "ultra" ? "All plans" : "Choose a plan"}
         </h2>
-        <div className="inline-flex items-center bg-muted p-1 rounded-xl ring-1 ring-border">
+        <div
+          data-click-sfx="switch"
+          className="inline-flex items-center bg-muted p-1 rounded-xl ring-1 ring-border"
+        >
           <button
             onClick={() => {
-              if (cycle !== "monthly") playSwitchSfx();
               setCycle("monthly");
             }}
             className={`relative px-4 py-1.5 rounded-lg text-sm font-medium transition-colors duration-300 ${
@@ -201,7 +202,6 @@ export function PlanClient({
           </button>
           <button
             onClick={() => {
-              if (cycle !== "yearly") playSwitchSfx();
               setCycle("yearly");
             }}
             className={`relative px-4 py-1.5 rounded-lg text-sm font-medium transition-colors duration-300 flex items-center gap-1.5 ${

@@ -7,7 +7,6 @@ import { motion } from "motion/react";
 import { ArrowUpRight, Eye } from "lucide-react";
 import { templates, type TemplateCategory } from "@/templates";
 import { Button } from "@/components/ui/button";
-import { playClickSfx, playSwitchSfx } from "@/lib/sfx";
 
 const TEMPLATE_CATEGORIES: { id: TemplateCategory; label: string }[] = [
   { id: "portfolio", label: "Portfolios" },
@@ -36,7 +35,10 @@ export default function TemplatesPage() {
             </p>
           </div>
 
-          <div className="inline-flex w-full max-w-[260px] overflow-hidden rounded-md border border-border bg-background text-xs">
+          <div
+            data-click-sfx="switch"
+            className="inline-flex w-full max-w-[260px] overflow-hidden rounded-md border border-border bg-background text-xs"
+          >
             {TEMPLATE_CATEGORIES.map((category) => {
               const isActive = activeCategory === category.id;
               return (
@@ -45,7 +47,6 @@ export default function TemplatesPage() {
                   type="button"
                   onClick={() => {
                     if (activeCategory === category.id) return;
-                    playSwitchSfx();
                     setActiveCategory(category.id);
                   }}
                   className={`relative flex-1 border-l border-border px-4 py-2 font-medium transition-colors first:border-l-0 ${
@@ -88,7 +89,6 @@ export default function TemplatesPage() {
                     asChild
                     size="icon"
                     className="h-8 w-8 rounded-md border border-white/30 bg-black/70 text-white hover:bg-black/90"
-                    onClick={playClickSfx}
                   >
                     <Link href={`/preview?template=${t.id}`} aria-label={`Preview ${t.name}`}>
                       <Eye className="size-4" />
@@ -98,7 +98,6 @@ export default function TemplatesPage() {
                     asChild
                     size="sm"
                     className="h-8 rounded-md border border-white/30 bg-black/70 px-3 text-white hover:bg-black/90"
-                    onClick={playClickSfx}
                   >
                     <Link href={`/login?template=${t.id}`} aria-label={`Use ${t.name}`}>
                       <span>Use</span>

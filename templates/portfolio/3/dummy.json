@@ -15,7 +15,7 @@
   "desc_2": "5+ years shipping production software. I care about performance, developer experience, and user experience.",
   "desc_3": "Open to contract and full-time roles. Let's talk!",
   "cta_buttons": [
-    { "type": "primary", "label": "Resume / CV", "href": "https://example.com/resume.pdf", "icon": "SI FileText" },
+    { "type": "primary", "label": "Resume / CV", "href": "https://example.com/resume.pdf", "icon": "LU FileText" },
     { "type": "secondary", "label": "Get in touch", "href": "mailto:ram@example.com", "icon": "BI Send" }
   ],
   "social_links": [

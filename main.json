@@ -13,7 +13,7 @@
     "desc_2": "Your short bio or skills summary.",
     "desc_3": "Why someone should hire you — and what to do next.",
     "cta_buttons": [
-      { "type": "primary", "label": "Know More", "href": "https://your-site.com", "icon": "SI FileText" },
+      { "type": "primary", "label": "Know More", "href": "https://your-site.com", "icon": "LU FileText" },
       { "type": "secondary", "label": "Get in touch", "href": "mailto:you@example.com", "icon": "BI Send" }
     ],
     "social_links": [

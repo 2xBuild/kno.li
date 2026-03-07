@@ -88,11 +88,19 @@ export default async function Home() {
     const result = await fetchProfileFromCustomDomain(host);
     if (result.status === "invalid_config") {
       console.error("[routing] Invalid config for custom domain", { host });
-      return <InvalidConfig />;
+      return (
+        <div data-page-sfx-scope="portfolio">
+          <InvalidConfig />
+        </div>
+      );
     }
     if (result.status === "not_found") {
       console.error("[routing] Profile not found for custom domain", { host });
-      return <NotFound />;
+      return (
+        <div data-page-sfx-scope="portfolio">
+          <NotFound />
+        </div>
+      );
     }
 
     const analyticsAppId = result.source === "kno-li" ? result.appId : undefined;
@@ -120,6 +128,7 @@ export default async function Home() {
 
     return (
       <div
+        data-page-sfx-scope="portfolio"
         className="flex min-h-screen items-center justify-center bg-background"
         style={getProfileThemeStyle(result.profile)}
       >

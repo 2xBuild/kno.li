@@ -25,11 +25,19 @@ export default async function UserPage({ params }: PageProps) {
 
   if (result.status === "not_found") {
     console.error("[routing] Profile not found", { username, host });
-    return <NotFound />;
+    return (
+      <div data-page-sfx-scope="portfolio">
+        <NotFound />
+      </div>
+    );
   }
   if (result.status === "invalid_config") {
     console.error("[routing] Invalid config for profile", { username, host });
-    return <InvalidConfig />;
+    return (
+      <div data-page-sfx-scope="portfolio">
+        <InvalidConfig />
+      </div>
+    );
   }
 
   if (result.appId) {
@@ -57,6 +65,7 @@ export default async function UserPage({ params }: PageProps) {
 
   return (
     <div
+      data-page-sfx-scope="portfolio"
       className="flex min-h-screen items-center justify-center bg-background"
       style={getProfileThemeStyle(profile)}
     >

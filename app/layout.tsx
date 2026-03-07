@@ -3,6 +3,7 @@ import { GeistPixelSquare } from "geist/font/pixel";
 import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthSessionProvider } from "@/components/auth-session-provider";
+import { ButtonClickSound } from "@/components/button-click-sound";
 import { APP_LOGO_PATH } from "@/lib/constants";
 import "./globals.css";
 
@@ -54,7 +55,10 @@ export default function RootLayout({
           }}
         />
         <AuthSessionProvider>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <ButtonClickSound />
+            {children}
+          </ThemeProvider>
         </AuthSessionProvider>
         <Analytics />
       </body>

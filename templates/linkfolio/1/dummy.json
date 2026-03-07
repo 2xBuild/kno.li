@@ -14,7 +14,7 @@
   "desc_2": "Currently building developer tools and writing about web performance.",
   "desc_3": "Open to collabs and freelance — reach out below.",
   "cta_buttons": [
-    { "type": "primary", "label": "My Blog", "href": "https://blog.example.com", "icon": "SI FileText" },
+    { "type": "primary", "label": "My Blog", "href": "https://blog.example.com", "icon": "LU FileText" },
     { "type": "secondary", "label": "Get in touch", "href": "mailto:sam@example.com", "icon": "BI Send" }
   ],
   "social_links": [

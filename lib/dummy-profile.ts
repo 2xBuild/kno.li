@@ -29,7 +29,7 @@ export const dummyProfile: Profile = {
       type: "primary",
       label: "Resume",
       href: "https://example.com/resume.pdf",
-      icon: "SI FileText",
+      icon: "LU FileText",
     },
     {
       type: "secondary",

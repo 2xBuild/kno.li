@@ -16,7 +16,7 @@
   "desc_2": "I build fast, accessible experiences and care deeply about product quality.",
   "desc_3": "Currently open to consulting, collaborations, and product engineering roles.",
   "cta_buttons": [
-    { "type": "primary", "label": "Resume", "href": "https://example.com/resume.pdf", "icon": "SI FileText" },
+    { "type": "primary", "label": "Resume", "href": "https://example.com/resume.pdf", "icon": "LU FileText" },
     { "type": "secondary", "label": "Say hello", "href": "mailto:nora@example.com", "icon": "BI Send" }
   ],
   "social_links": [
