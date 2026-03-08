@@ -1,0 +1,35 @@
+{
+  "template": "linkfolio-3",
+  "img": "https://api.dicebear.com/7.x/avataaars/svg?seed=linkfolio3",
+  "img_alt": "Profile photo",
+  "heading_bold": "More",
+  "heading_light": "",
+  "desc_1": "Hey! This is me siya. 14 years old design engineer who loves to design and build. I built things out of curiosity and passion.",
+  "tech_stack": [],
+  "desc_2": "",
+  "desc_3": "",
+  "cta_buttons": [],
+  "social_links": [],
+  "link_items": [
+    {
+      "kind": "internal",
+      "label": "Everything about me",
+      "content": "I like working on internet products, tinkering with code, and learning by building things from scratch.\n\nMost of my work starts with curiosity, then turns into prototypes, tools, and side projects."
+    },
+    {
+      "kind": "internal",
+      "label": "Apps and domains I have built",
+      "content": "I build apps, experiments, and small products across the web.\n\nHere is the everything i have built so far"
+    },
+    {
+      "kind": "external",
+      "label": "Github",
+      "href": "https://github.com"
+    },
+    {
+      "kind": "external",
+      "label": "Twitter",
+      "href": "https://x.com"
+    }
+  ]
+}

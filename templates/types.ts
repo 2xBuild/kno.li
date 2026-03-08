@@ -7,6 +7,7 @@
  * - image_url     → single-line Input with image preview
  * - tech_stack    → array of { iconName, visibleName } with icon picker
  * - social_links  → array of { type (icon), label, href } with icon picker
+ * - link_items    → array of { kind, label, href?, content? }
  * - cta_buttons   → array of { type, label, href, icon? } with icon picker
  * - experience    → array of experience objects
  * - projects      → array of project objects
@@ -22,6 +23,7 @@ export type FieldType =
   | "image_url"
   | "tech_stack"
   | "social_links"
+  | "link_items"
   | "cta_buttons"
   | "experience"
   | "projects"

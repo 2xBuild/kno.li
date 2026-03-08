@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -19,7 +18,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { templates, appTypeToCategory } from "@/templates";
-import { DISPLAY_DOMAINS } from "@/lib/constants";
 
 type AppType = "portfolio" | "link-organiser";
 
@@ -43,8 +41,6 @@ export default function CreateAppPage() {
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [acceptUsernamePolicy, setAcceptUsernamePolicy] = useState(false);
-
-  const firstPartyDomains = DISPLAY_DOMAINS;
 
   const minSlugLength = session?.user?.planTier === "free" ? 4 : 2;
 
@@ -126,7 +122,7 @@ export default function CreateAppPage() {
     return () => {
       clearTimeout(handle);
     };
-  }, [normalizedSlug, checkAvailability]);
+  }, [normalizedSlug, minSlugLength, checkAvailability]);
 
   const createInitialContent = () => {
     const firstName = session?.user?.name?.split(" ")[0] ?? "you";
@@ -146,6 +142,7 @@ export default function CreateAppPage() {
       tech_stack: [],
       cta_buttons: [],
       social_links: [],
+      link_items: [],
     };
   };
 
@@ -246,7 +243,12 @@ export default function CreateAppPage() {
           </div>
 
           <div className="space-y-1.5 sm:space-y-2">
-            <Label htmlFor="template" className="text-xs sm:text-sm">Template <a href="/templates" className="underline underline-offset-2">Learn more</a></Label>
+            <Label htmlFor="template" className="text-xs sm:text-sm">
+              Template{" "}
+              <Link href="/templates" className="underline underline-offset-2">
+                Learn more
+              </Link>
+            </Label>
 
             <Select value={templateId} onValueChange={setTemplateId}>
               <SelectTrigger id="template" className="w-full">

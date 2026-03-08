@@ -7,6 +7,7 @@ import { Loader } from "@/components/ui/loader";
 import type {
   Profile,
   ProfileCta,
+  ProfileLinkItem,
   ProfileSocialLink,
   ProfileTech,
   ProfileExperience,
@@ -80,12 +81,25 @@ function coerceProfile(
     banner_image: String(next.banner_image ?? ""),
     heading_bold: String(next.heading_bold ?? ""),
     heading_light: String(next.heading_light ?? ""),
+    title: String(next.title ?? ""),
     desc_1: String(next.desc_1 ?? ""),
     tech_stack: Array.isArray(next.tech_stack) ? next.tech_stack : [],
     desc_2: String(next.desc_2 ?? ""),
     desc_3: String(next.desc_3 ?? ""),
     cta_buttons: Array.isArray(next.cta_buttons) ? next.cta_buttons : [],
     social_links: Array.isArray(next.social_links) ? next.social_links : [],
+    link_items: Array.isArray(next.link_items)
+      ? next.link_items
+          .filter((item): item is Record<string, unknown> =>
+            !!item && typeof item === "object",
+          )
+          .map((item) => ({
+            kind: item.kind === "internal" ? "internal" : "external",
+            label: String(item.label ?? ""),
+            href: String(item.href ?? ""),
+            content: String(item.content ?? ""),
+          }))
+      : [],
     experience: Array.isArray(next.experience) ? next.experience : undefined,
     projects: Array.isArray(next.projects) ? next.projects : undefined,
     blogs: Array.isArray(next.blogs) ? next.blogs : undefined,
@@ -228,6 +242,91 @@ function SocialLinksEditor({
         size="sm"
         onClick={() =>
           onChange([...value, { type: "", label: "", href: "" }])
+        }
+      >
+        <Plus className="mr-1 size-3.5" /> Add link
+      </Button>
+    </div>
+  );
+}
+
+function LinkItemsEditor({
+  value,
+  onChange,
+}: {
+  value: ProfileLinkItem[];
+  onChange: (v: ProfileLinkItem[]) => void;
+}) {
+  const update = (idx: number, patch: Partial<ProfileLinkItem>) => {
+    const next = [...value];
+    next[idx] = { ...next[idx], ...patch };
+    onChange(next);
+  };
+
+  return (
+    <div className="space-y-4">
+      {value.map((item, i) => (
+        <div
+          key={i}
+          className="space-y-2 rounded-lg border border-border p-3"
+        >
+          <div className="flex flex-wrap items-center gap-2">
+            <Select
+              value={item.kind}
+              onValueChange={(v) =>
+                update(i, { kind: v as ProfileLinkItem["kind"] })
+              }
+            >
+              <SelectTrigger className="w-32">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="external">External</SelectItem>
+                <SelectItem value="internal">Internal</SelectItem>
+              </SelectContent>
+            </Select>
+            <Input
+              value={item.label}
+              onChange={(e) => update(i, { label: e.target.value })}
+              placeholder="Link label"
+              className="flex-1"
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="shrink-0"
+              onClick={() => onChange(value.filter((_, j) => j !== i))}
+            >
+              <Trash2 className="size-3.5" />
+            </Button>
+          </div>
+
+          {item.kind === "external" ? (
+            <Input
+              value={item.href ?? ""}
+              onChange={(e) => update(i, { href: e.target.value })}
+              placeholder="https://…"
+            />
+          ) : (
+            <Textarea
+              value={item.content ?? ""}
+              onChange={(e) => update(i, { content: e.target.value })}
+              placeholder="Content shown when this internal link is opened"
+              rows={4}
+            />
+          )}
+        </div>
+      ))}
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        onClick={() =>
+          onChange([
+            ...value,
+            { kind: "external", label: "", href: "", content: "" },
+          ])
         }
       >
         <Plus className="mr-1 size-3.5" /> Add link
@@ -818,6 +917,14 @@ function FieldEditor({
       return (
         <SocialLinksEditor
           value={(val as ProfileSocialLink[]) ?? []}
+          onChange={(v) => set(field, v)}
+        />
+      );
+
+    case "link_items":
+      return (
+        <LinkItemsEditor
+          value={(val as ProfileLinkItem[]) ?? []}
           onChange={(v) => set(field, v)}
         />
       );

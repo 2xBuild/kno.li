@@ -52,15 +52,17 @@ function resolveAccent(profile: Profile, family: TemplateFamily): string {
 }
 
 function getLinkLabels(profile: Profile): string[] {
-  const socialLinks = Array.isArray(profile.social_links)
-    ? profile.social_links
-    : [];
+  const linkItems = Array.isArray(profile.link_items) && profile.link_items.length > 0
+    ? profile.link_items
+    : Array.isArray(profile.social_links)
+      ? profile.social_links
+      : [];
   const ctaButtons = Array.isArray(profile.cta_buttons)
     ? profile.cta_buttons
     : [];
 
   const labels = [
-    ...socialLinks.map((item) => item.label.trim()),
+    ...linkItems.map((item) => item.label.trim()),
     ...ctaButtons.map((item) => item.label.trim()),
   ].filter(Boolean);
 
@@ -82,9 +84,11 @@ function buildStats(
   profile: Profile,
   family: TemplateFamily
 ): Array<{ label: string; value: string }> {
-  const socialLinks = Array.isArray(profile.social_links)
-    ? profile.social_links
-    : [];
+  const linkItems = Array.isArray(profile.link_items) && profile.link_items.length > 0
+    ? profile.link_items
+    : Array.isArray(profile.social_links)
+      ? profile.social_links
+      : [];
   const ctaButtons = Array.isArray(profile.cta_buttons)
     ? profile.cta_buttons
     : [];
@@ -99,7 +103,7 @@ function buildStats(
   }
 
   return [
-    { label: "Links", value: String(socialLinks.length) },
+    { label: "Links", value: String(linkItems.length) },
     { label: "CTA", value: String(ctaButtons.length) },
     { label: "Tech", value: String(techStack.length) },
   ];

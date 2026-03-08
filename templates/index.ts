@@ -85,6 +85,21 @@ export const templates: TemplateEntry[] = [
     loadDummy: () => import("@/templates/linkfolio/2/dummy.json").then((m) => m.default as Profile),
     loadReq: () => import("@/templates/linkfolio/2/req").then((m) => m.fields),
   },
+  {
+    meta: {
+      id: "linkfolio-3",
+      name: "Single Page Links",
+      description: "Plain HTML link page with external links and internal same-page sections",
+      category: "linkfolio",
+      fonts: { heading: "serif", body: "serif" },
+      animation: "none",
+      radius: "0px",
+      previewImage: linkfolio1Banner,
+    },
+    load: () => import("@/templates/linkfolio/3"),
+    loadDummy: () => import("@/templates/linkfolio/3/dummy.json").then((m) => m.default as Profile),
+    loadReq: () => import("@/templates/linkfolio/3/req").then((m) => m.fields),
+  },
 
   // ── Portfolio ──────────────────────────────────────────────────────
   {

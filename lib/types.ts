@@ -4,6 +4,13 @@ export interface ProfileSocialLink {
   href: string;
 }
 
+export interface ProfileLinkItem {
+  kind: "external" | "internal";
+  label: string;
+  href?: string;
+  content?: string;
+}
+
 export interface ProfileCta {
   /** "primary" = filled, "secondary" = outline */
   type: "primary" | "secondary";
@@ -90,6 +97,8 @@ export interface Profile {
   desc_3: string;
   cta_buttons: ProfileCta[];
   social_links: ProfileSocialLink[];
+  /** Optional: used by section-based linkfolio templates */
+  link_items?: ProfileLinkItem[];
   /** Optional: for templates that show experience section */
   experience?: ProfileExperience[];
   /** Optional: for templates that show projects section */
