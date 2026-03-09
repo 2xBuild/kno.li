@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { ArrowLeft, CirclePlus } from "lucide-react";
+import { ArrowLeft, CirclePlus, Github } from "lucide-react";
 import { Loader } from "@/components/ui/loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -194,6 +194,15 @@ export default function CreateAppPage() {
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-4 p-4 sm:gap-6 sm:p-8">
+      <div className="flex justify-end">
+        <Button asChild variant="outline" size="sm" className="gap-2">
+          <Link href="/dashboard/create-app/import-github">
+            <Github className="h-4 w-4" />
+            Import from GitHub
+          </Link>
+        </Button>
+      </div>
+
       <header className="space-y-1 sm:space-y-2">
         <Button
           variant="ghost"
