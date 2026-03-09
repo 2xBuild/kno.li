@@ -4,6 +4,7 @@ import { renderLinkfolioTwoOgImage } from "@/templates/linkfolio/2/og-image";
 
 export function renderLinkfolioOgImage(data: PreparedOgProfile) {
   switch (data.templateId) {
+    case "linkfolio-4":
     case "linkfolio-2":
       return renderLinkfolioTwoOgImage(data);
     case "linkfolio-1":

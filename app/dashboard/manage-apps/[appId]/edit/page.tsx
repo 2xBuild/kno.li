@@ -81,6 +81,7 @@ function coerceProfile(
     banner_image: String(next.banner_image ?? ""),
     heading_bold: String(next.heading_bold ?? ""),
     heading_light: String(next.heading_light ?? ""),
+    card_corner_style: String(next.card_corner_style ?? ""),
     title: String(next.title ?? ""),
     desc_1: String(next.desc_1 ?? ""),
     tech_stack: Array.isArray(next.tech_stack) ? next.tech_stack : [],

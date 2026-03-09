@@ -89,6 +89,8 @@ export interface Profile {
   heading_bold: string;
   /** Legacy secondary heading; for newer templates, prefer `title` below. */
   heading_light: string;
+  /** Optional widget corner style for templates that support it ("rounded" | "flat"). */
+  card_corner_style?: string;
   /** Title/role shown under the main name heading (e.g. "Frontend Developer"). */
   title?: string;
   desc_1: string;

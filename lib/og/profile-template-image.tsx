@@ -23,6 +23,7 @@ const LEGACY_TEMPLATE_MAP: Record<string, string> = {
   "3": "portfolio-2",
   "4": "portfolio-1",
   "5": "linkfolio-2",
+  "6": "linkfolio-4",
 };
 
 const HEX_COLOR_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
