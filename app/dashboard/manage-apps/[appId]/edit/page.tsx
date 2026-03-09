@@ -90,7 +90,7 @@ function coerceProfile(
     social_links: Array.isArray(next.social_links) ? next.social_links : [],
     link_items: Array.isArray(next.link_items)
       ? next.link_items
-          .filter((item): item is Record<string, unknown> =>
+          .filter((item): item is ProfileLinkItem =>
             !!item && typeof item === "object",
           )
           .map((item) => ({

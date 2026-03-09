@@ -5,6 +5,7 @@ import type { FieldRequirement } from "@/templates/types";
 
 import linkfolio1Banner from "@/templates/linkfolio/1/banner.png";
 import linkfolio2Banner from "@/templates/linkfolio/2/banner.png";
+import linkfolio3Banner from "@/templates/linkfolio/3/banner.png";
 import portfolio1Banner from "@/templates/portfolio/1/banner.png";
 import portfolio2Banner from "@/templates/portfolio/2/banner.png";
 import portfolio3Banner from "@/templates/portfolio/3/banner.png";
@@ -94,7 +95,7 @@ export const templates: TemplateEntry[] = [
       fonts: { heading: "serif", body: "serif" },
       animation: "none",
       radius: "0px",
-      previewImage: linkfolio1Banner,
+      previewImage: linkfolio3Banner,
     },
     load: () => import("@/templates/linkfolio/3"),
     loadDummy: () => import("@/templates/linkfolio/3/dummy.json").then((m) => m.default as Profile),
